@@ -9,7 +9,7 @@ functions.firestore.document('courses/{courseId}/lessons/{lessonId}')
 
         console.log("Running onAddLesson trigger ...");
 
-        return courseTransaction(snap, course => {
+        return courseTransaction(snap, (course: { lessonsCount: number; }) => {
             return {lessonsCount: course.lessonsCount + 1}
         });
 
@@ -21,7 +21,7 @@ export const onDeleteLesson =
 
             console.log("Running onDeleteLesson trigger ...");
 
-            return courseTransaction(snap, course => {
+            return courseTransaction(snap, (course: { lessonsCount: number; }) => {
                 return {lessonsCount: course.lessonsCount - 1}
             });
 
@@ -29,8 +29,8 @@ export const onDeleteLesson =
 
 
 
-function courseTransaction(snap, cb:Function) {
-    return db.runTransaction(async transaction => {
+function courseTransaction(snap: functions.firestore.DocumentSnapshot, cb:Function) {
+    return db.runTransaction(async (transaction: { get: (arg0: any) => any; update: (arg0: any, arg1: any) => void; }) => {
 
         const courseRef = snap.ref.parent.parent;
 

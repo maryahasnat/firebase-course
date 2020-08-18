@@ -16,7 +16,7 @@ app.get('/courses', async (request, response) => {
 
     const courses:any[] = [];
 
-    snaps.forEach(snap => courses.push(snap.data()));
+    snaps.forEach((snap: { data: () => any; }) => courses.push(snap.data()));
 
     response.status(200).json({courses});
 
